@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
+import authRouter from './routes/auth.route.js';
 dotenv.config();
 
 mongoose
@@ -15,9 +16,13 @@ mongoose
 
 const app = express();
 
-app.use('/api/user', userRouter);
+app.use(express.json());//allows us to parse JSON bodies, by default, Express does not parse JSON bodies, so we need to use this middleware to handle JSON requests.
 
 app.listen(3000, () => {
   console.log('Server is running on port 4000!');
 });
+
+app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter);
+
 
