@@ -1,5 +1,6 @@
 //used to verify JWT token from cookies in requests
 import jwt from 'jsonwebtoken';
+import { errorHandler } from './error.js';
 
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;//cookieParser middleware will parse cookies and make them available in req.cookies
