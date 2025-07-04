@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 mongoose
@@ -16,7 +17,9 @@ mongoose
 
 const app = express();
 
+
 app.use(express.json());//allows us to parse JSON bodies, by default, Express does not parse JSON bodies, so we need to use this middleware to handle JSON requests.
+app.use(cookieParser());//allows us to parse cookies from incoming requests, enabling us to access cookies in the request object.
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000!');
