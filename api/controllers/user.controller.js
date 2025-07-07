@@ -1,13 +1,13 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
+import Listing from '../models/listing.model.js';
 
 export const test = (req, res) => {
   res.json({
     message: 'Api route is working!',
   });
 };
-
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)//user from token vs user sent in update request
     //if they do not match, user is trying to update another user's account
@@ -37,7 +37,6 @@ export const updateUser = async (req, res, next) => {
     next(error); //if any error occurs, pass it to the next middleware (error handler)
   }
 };
-
 export const deleteUser = async (req, res, next) => {
   if (req.user.id !== req.params.id) //user from token vs user sent in delete request
     return next(errorHandler(401, 'You can only delete your own account!'));
@@ -48,4 +47,19 @@ export const deleteUser = async (req, res, next) => {
   } catch (error) {
     next(error); //if any error occurs, pass it to the next middleware (error handler)
   }
- };
+};
+export const getUserListings = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const listings = await Listing.find({ userRef: req.params.id });//UserRef is just a field to link listings back to their owner (the user).
+      res.status(200).json(listings);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(errorHandler(401, 'You can only view your own listings!'));
+  }
+};
+
+
+
