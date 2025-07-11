@@ -140,11 +140,11 @@ export default function Listing() {
                 Contact landlord
               </button>
             )}
-            {contact && <Contact listing={listing}/>} // Render the Contact component and pass the current listing data as a prop named 'listing'
+            {contact && <Contact listing={listing}/>} 
           </div>
         </div>
       )}
     </main>
   );
 }
-
+// Render the Contact component and pass the current listing data as a prop named 'listing'

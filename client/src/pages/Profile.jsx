@@ -7,6 +7,7 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../firebase';
+
 import { set } from 'mongoose';
 import { useDispatch } from 'react-redux';
 import {
@@ -41,7 +42,6 @@ export default function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   // state for user listings
   const [userListings, setUserListings] = useState([]);
-
   // firebase storage
   // allow read;
   // allow write: if
