@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-
+import path from 'path';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import listingRouter from './routes/listing.route.js';
@@ -18,6 +18,7 @@ mongoose
     console.log(err);
   });
 
+  const __dirname = path.resolve();//__dirname is used to get the current directory name, which is useful for serving static files or resolving paths relative to the current directory.
 const app = express();//create instance of Express application,sets up server and define routes and middleware.
 
 app.use(express.json());//allows us to parse JSON bodies, by default, Express does not parse JSON bodies, so we need to use this middleware to handle JSON requests.
@@ -30,6 +31,12 @@ app.listen(3000, () => {
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
+
+app.use(express.static(path.join(__dirname, '/client/dist'))); //serves static files from the 'client/dist' directory, which is where the React app is built and served from.
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+}) // This route serves the index.html file for any other routes that are not handled by the API routes, allowing the React app to handle client-side routing.
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
